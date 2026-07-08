@@ -1,0 +1,19 @@
+{
+  "name": "ALL-DAY PARK",
+  "short_name": "ALL-DAY PARK",
+  "description": "룰렛, 메모, 그림, 퀴즈, 사다리, 타이머, 랜덤 뽑기, 동전 던지기를 한곳에서 즐길 수 있는 기능 모음 사이트",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFF9F0",
+  "theme_color": "#FF6B6B",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
