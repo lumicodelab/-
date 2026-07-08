@@ -557,7 +557,17 @@ function go(id){
   document.body.dataset.screen = target;
   if(location.hash !== '#'+target) history.pushState(null,'','#'+target);
   window.scrollTo({top:0});
-  if(!inited[target] && INIT[target]){ INIT[target](); inited[target]=true; }
+  if(!inited[target] && INIT[target]){
+  if(target === 'home'){
+    requestAnimationFrame(() => {
+      INIT[target]();
+      inited[target] = true;
+    });
+  } else {
+    INIT[target]();
+    inited[target] = true;
+  }
+}
   if(REOPEN[target]) REOPEN[target]();
 }
 window.addEventListener('popstate', ()=>{
