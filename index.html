@@ -868,7 +868,12 @@ INIT.draw = function(){
   function syncRing(){const d=curDiameter();ring.style.width=d+'px';ring.style.height=d+'px';ring.classList.toggle('erasing',erase);}
   function setErase(on){erase=on;eraseBtn.classList.toggle('active',erase);syncRing();}
   COLORS.forEach((c,i)=>{const b=document.createElement('div');b.className='sw'+(i===0?' active':'');b.style.background=c;b.onclick=()=>{color=c;setErase(false);clearActive();b.classList.add('active');};sw.appendChild(b);});
-  custom.oninput=e=>{color=e.target.value;setErase(false);clearActive();customWrap.classList.add('active');customWrap.style.background=e.target.value;};
+  custom.onchange = e => {
+    color = e.target.value;
+    setErase(false);
+    drawing = false;
+    last = null;
+    customWrap.style.background = e.target.value;};
   customWrap.style.background='conic-gradient(from 0deg,#ff5f5f,#ffcf5f,#7bd88f,#5fc7ff,#9b8bff,#ff7fd0,#ff5f5f)';
   penInput.oninput=e=>{penSize=+e.target.value;penChip.textContent=penSize;setErase(false);syncRing();};
   eraseInput.oninput=e=>{eraseSize=+e.target.value;eraseChip.textContent=eraseSize;setErase(true);syncRing();};
