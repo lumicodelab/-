@@ -884,13 +884,17 @@ INIT.draw = function(){
   last = null;
 }
 
-custom.oninput = applyCustomColor;
-custom.onchange = applyCustomColor;
-custom.onblur = () => {
-  drawing = false;
-  last = null;
+custom.oninput = e => {
+    const v = e.target.value.trim();
+
+    if(/^#[0-9A-Fa-f]{6}$/.test(v)){
+        color = v;
+        setErase(false);
+        drawing = false;
+        last = null;
+        custom.style.borderColor = v;
+    }
 };
-  customWrap.style.background='conic-gradient(from 0deg,#ff5f5f,#ffcf5f,#7bd88f,#5fc7ff,#9b8bff,#ff7fd0,#ff5f5f)';
   penInput.oninput=e=>{penSize=+e.target.value;penChip.textContent=penSize;setErase(false);syncRing();};
   eraseInput.oninput=e=>{eraseSize=+e.target.value;eraseChip.textContent=eraseSize;setErase(true);syncRing();};
   eraseBtn.onclick=()=>setErase(!erase);
