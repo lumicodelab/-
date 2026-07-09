@@ -913,7 +913,11 @@ custom.onblur = () => {
   function showRing(p){ring.style.display='block';ring.style.left=p.x+'px';ring.style.top=p.y+'px';}
   function start(e){drawing=true;last=pos(e);showRing(last);e.preventDefault();}
   function move(e){const p=pos(e);showRing(p);if(!drawing)return;ctx.strokeStyle=erase?'#fff':color;ctx.lineWidth=curDiameter();ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p;e.preventDefault();}
-  function end(){drawing=false;}
+  function end(){
+  drawing=false;
+  last=null;
+  ring.style.display='none';
+}
  canvas.addEventListener('mousedown',start);
 canvas.addEventListener('mousemove',move);
 window.addEventListener('mouseup',end);
