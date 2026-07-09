@@ -870,9 +870,8 @@ INIT.draw = function(){
   const eraseChip=document.getElementById('dwEraseChip');
   const penInput=document.getElementById('dwPenSize');
   const eraseInput=document.getElementById('dwEraseSize');
-  const customWrap=document.getElementById('dwCustomWrap');
   const custom=document.getElementById('dwCustom');
-  function clearActive(){[...sw.children].forEach(x=>x.classList.remove('active'));customWrap.classList.remove('active');}
+  function clearActive(){[...sw.children].forEach(x=>x.classList.remove('active'));
   function curSize(){return erase?eraseSize:penSize;}
   function curDiameter(){return Math.max(1,curSize());}
   function syncRing(){const d=curDiameter();ring.style.width=d+'px';ring.style.height=d+'px';ring.classList.toggle('erasing',erase);}
@@ -883,14 +882,7 @@ INIT.draw = function(){
   setErase(false);
   drawing = false;
   last = null;
-  customWrap.style.background = e.target.value;
 }
-
-customWrap.onclick = () => {
-  drawing = false;
-  last = null;
-  custom.click();
-};
 
 custom.oninput = applyCustomColor;
 custom.onchange = applyCustomColor;
