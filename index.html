@@ -306,7 +306,6 @@
   gap:8px;
 }
 
-.footer-links a{
 .footer-links a,
 .footer-links a:link,
 .footer-links a:visited{
@@ -869,7 +868,7 @@ INIT.draw = function(){
   const penInput=document.getElementById('dwPenSize');
   const eraseInput=document.getElementById('dwEraseSize');
   const custom=document.getElementById('dwCustom');
-  function clearActive(){[...sw.children].forEach(x=>x.classList.remove('active'));
+  function clearActive(){[...sw.children].forEach(x=>x.classList.remove('active'));}
   function curSize(){return erase?eraseSize:penSize;}
   function curDiameter(){return Math.max(1,curSize());}
   function syncRing(){const d=curDiameter();ring.style.width=d+'px';ring.style.height=d+'px';ring.classList.toggle('erasing',erase);}
