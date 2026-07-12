@@ -337,6 +337,14 @@
 #dwRing{
   pointer-events:none !important;
 }
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
   
 </style>
 
@@ -362,8 +370,7 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand" onclick="go('home')">
-      <div class="brand-badge"></div>
-      <div>
+      <img class="brand-logo" src="/favicon.png" alt="온종일 테마파크 로고">
         <div class="brand-name">온종일 테마파크</div>
         <div class="brand-sub">All-day Park</div>
       </div>
