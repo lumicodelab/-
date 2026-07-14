@@ -26,11 +26,17 @@ function paintIcons(){
 }
 
 const inited = {};
-function go(id){
+function go(id, changeUrl = true){
   const target = document.querySelector('.screen[data-screen="'+id+'"]') ? id : 'home';
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.dataset.screen===target));
   document.body.dataset.screen = target;
-  if(location.hash !== '#'+target) history.pushState(null,'','#'+target);
+
+    const path = target === 'home' ? '/' : `/${target}`;
+
+  if(changeUrl && location.pathname !== path){
+    history.pushState({ screen: target }, '', path);
+  }
+
   window.scrollTo({top:0});
   if(!inited[target] && INIT[target]){
   if(target === 'home'){
@@ -45,9 +51,17 @@ function go(id){
 }
   if(REOPEN[target]) REOPEN[target]();
 }
+
+function getScreenFromPath(){
+  const id = location.pathname.replace(/^\/+|\/+$/g, '');
+
+  if(!id) return 'home';
+
+  return RIDES.some(ride => ride.id === id) ? id : 'home';
+}
+
 window.addEventListener('popstate', ()=>{
-  const id = location.hash.replace('#','') || 'home';
-  go(id);
+  go(getScreenFromPath(), false);
 });
 
 /* Build home tiles */
@@ -78,4 +92,6 @@ window.addEventListener('popstate', ()=>{
 ============================================================ */
 
 /* Boot */
-(function(){const id=location.hash.replace('#','')||'home';go(id);})();
+(function(){
+  go(getScreenFromPath(), false);
+})();
