@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="스톱워치와 타이머를 간편하게 사용할 수 있는 ALL-DAY PARK 시계 기능입니다."
+  >
+
+  <title>스톱워치·타이머 | ALL-DAY PARK</title>
+
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .timer-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .timer-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .timer-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .timer-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .timer-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .timer-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .related-tools {
+      margin-top: 70px;
+      padding-top: 50px;
+      border-top: 1px solid #eadfd3;
+    }
+
+    .related-heading {
+      margin-bottom: 24px;
+    }
+
+    .related-heading h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .related-heading p {
+      margin: 0;
+      color: #81746a;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding: 22px;
+
+      color: #32271f;
+      background: #ffffff;
+      border: 1px solid #eadfd3;
+      border-radius: 20px;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: #c89c79;
+      box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+    }
+
+    .related-card > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+
+      background: #fff4e8;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .related-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #81746a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .timer-page-header {
+        padding: 0 4%;
+      }
+
+      .timer-logo {
+        font-size: 15px;
+      }
+
+      .timer-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .timer-page-main {
+        width: min(94%, 1100px);
+      }
+
+      .timer-page-main .card {
+        overflow-x: hidden;
+      }
+
+      .timer-page-main .clock {
+        font-size: clamp(42px, 14vw, 72px);
+      }
+
+      .timer-page-main .toolbar {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="timer-page-header">
+    <a href="../../" class="timer-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="timer-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="timer-page-main">
+    <section class="screen" data-screen="timer">
+      <div class="tool-head" style="--c: var(--orange)">
+        <div class="tool-icon" data-icon="timer"></div>
+
+        <div class="tool-title">
+          시계탑
+          <small>Timer & Stopwatch</small>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button
+          class="tab active"
+          data-mode="stopwatch"
+          type="button"
+        >
+          스톱워치
+        </button>
+
+        <button
+          class="tab"
+          data-mode="timer"
+          type="button"
+        >
+          타이머
+        </button>
+      </div>
+
+      <div class="card" id="swPane">
+        <div
+          class="clock"
+          id="swClock"
+          aria-live="polite"
+        >
+          00:00<small>.00</small>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+          "
+        >
+          <button
+            class="btn"
+            id="swStart"
+            type="button"
+          >
+            시작
+          </button>
+
+          <button
+            class="btn ghost"
+            id="swLap"
+            type="button"
+            disabled
+          >
+            랩
+          </button>
+
+          <button
+            class="btn ghost"
+            id="swReset"
+            type="button"
+          >
+            초기화
+          </button>
+        </div>
+
+        <div
+          class="laps"
+          id="swLaps"
+          aria-live="polite"
+        ></div>
+      </div>
+
+      <div
+        class="card"
+        id="tmPane"
+        style="display: none;"
+      >
+        <div
+          class="toolbar"
+          style="justify-content: center;"
+        >
+          <div class="fg">
+            <span class="lbl">분</span>
+
+            <input
+              class="field"
+              id="tmMin"
+              type="number"
+              min="0"
+              max="180"
+              value="5"
+              style="
+                width: 90px;
+                text-align: center;
+              "
+            >
+          </div>
+
+          <div class="fg">
+            <span class="lbl">초</span>
+
+            <input
+              class="field"
+              id="tmSec"
+              type="number"
+              min="0"
+              max="59"
+              value="0"
+              style="
+                width: 90px;
+                text-align: center;
+              "
+            >
+          </div>
+        </div>
+
+        <div
+          class="clock"
+          id="tmClock"
+          aria-live="polite"
+          style="
+            margin-top: 18px;
+            color: var(--orange);
+          "
+        >
+          05:00
+        </div>
+
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+          "
+        >
+          <button
+            class="btn"
+            id="tmStart"
+            type="button"
+          >
+            시작
+          </button>
+
+          <button
+            class="btn ghost"
+            id="tmReset"
+            type="button"
+          >
+            초기화
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-tools">
+      <div class="related-heading">
+        <h2>빠른 기능</h2>
+        <p>다른 기능도 바로 사용해보세요.</p>
+      </div>
+
+      <div class="related-grid">
+        <a href="../roulette/" class="related-card">
+          <span aria-hidden="true">🎡</span>
+
+          <div>
+            <h3>룰렛</h3>
+            <p>입력한 항목 중 하나를 선택해요.</p>
+          </div>
+        </a>
+
+        <a href="../random/" class="related-card">
+          <span aria-hidden="true">🎲</span>
+
+          <div>
+            <h3>랜덤 숫자 추첨</h3>
+            <p>원하는 범위에서 숫자를 뽑아요.</p>
+          </div>
+        </a>
+
+        <a href="../coin/" class="related-card">
+          <span aria-hidden="true">🪙</span>
+
+          <div>
+            <h3>동전 던지기</h3>
+            <p>앞면과 뒷면 중 하나를 정해요.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <script src="../../js/tools/timer.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.timer === "function"
+      ) {
+        INIT.timer();
+      } else {
+        console.error(
+          "스톱워치·타이머 초기화 함수를 불러오지 못했습니다."
+        );
+      }
+    });
+  </script>
+</body>
+</html>

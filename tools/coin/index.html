@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="동전을 던져 앞면과 뒷면 중 하나를 무작위로 결정하는 ALL-DAY PARK 동전 던지기입니다."
+  >
+
+  <title>동전 던지기 | ALL-DAY PARK</title>
+
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .coin-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .coin-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .coin-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .coin-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .coin-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .coin-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .related-tools {
+      margin-top: 70px;
+      padding-top: 50px;
+      border-top: 1px solid #eadfd3;
+    }
+
+    .related-heading {
+      margin-bottom: 24px;
+    }
+
+    .related-heading h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .related-heading p {
+      margin: 0;
+      color: #81746a;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding: 22px;
+
+      color: #32271f;
+      background: #ffffff;
+      border: 1px solid #eadfd3;
+      border-radius: 20px;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: #c89c79;
+      box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+    }
+
+    .related-card > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+
+      background: #fff4e8;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .related-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #81746a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .coin-page-header {
+        padding: 0 4%;
+      }
+
+      .coin-logo {
+        font-size: 15px;
+      }
+
+      .coin-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="coin-page-header">
+    <a href="../../" class="coin-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="coin-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="coin-page-main">
+    <section class="screen" data-screen="coin">
+      <div class="tool-head" style="--c: var(--rose)">
+        <div class="tool-icon" data-icon="coin"></div>
+
+        <div class="tool-title">
+          동전 던지기
+          <small>Coin Flip</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="coin-stage">
+          <div class="coin3d" id="coinEl">
+            <div class="coin-face front">앞</div>
+            <div class="coin-face back">뒤</div>
+          </div>
+        </div>
+
+        <div
+          class="result-big"
+          id="coinResult"
+          aria-live="polite"
+          style="
+            text-align: center;
+            min-height: 38px;
+          "
+        ></div>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            margin-top: 8px;
+          "
+        >
+          <button
+            class="btn"
+            id="coinFlip"
+            type="button"
+          >
+            던지기
+          </button>
+        </div>
+
+        <div class="tally">
+          <div class="tally-item">
+            <b id="coinFront">0</b>
+            <span>앞</span>
+          </div>
+
+          <div class="tally-item">
+            <b id="coinBack">0</b>
+            <span>뒤</span>
+          </div>
+
+          <div class="tally-item">
+            <b id="coinTotal">0</b>
+            <span>합계</span>
+          </div>
+        </div>
+
+        <div
+          style="
+            text-align: center;
+            margin-top: 14px;
+          "
+        >
+          <button
+            class="btn ghost sm"
+            id="coinReset"
+            type="button"
+          >
+            기록 초기화
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-tools">
+      <div class="related-heading">
+        <h2>빠른 기능</h2>
+        <p>다른 기능도 바로 사용해보세요.</p>
+      </div>
+
+      <div class="related-grid">
+        <a href="../roulette/" class="related-card">
+          <span aria-hidden="true">🎡</span>
+
+          <div>
+            <h3>룰렛</h3>
+            <p>입력한 항목 중 하나를 선택해요.</p>
+          </div>
+        </a>
+
+        <a href="../ladder/" class="related-card">
+          <span aria-hidden="true">🪜</span>
+
+          <div>
+            <h3>사다리 타기</h3>
+            <p>여러 사람의 결과를 정해요.</p>
+          </div>
+        </a>
+
+        <a href="../random/" class="related-card">
+          <span aria-hidden="true">🎲</span>
+
+          <div>
+            <h3>랜덤 숫자 추첨</h3>
+            <p>원하는 범위에서 숫자를 뽑아요.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <script src="../../js/tools/coin.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.coin === "function"
+      ) {
+        INIT.coin();
+      } else {
+        console.error(
+          "동전 던지기 초기화 함수를 불러오지 못했습니다."
+        );
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="새 메모를 추가하고 브라우저에 자동 저장할 수 있는 ALL-DAY PARK 메모장입니다."
+  >
+
+  <title>메모장 | ALL-DAY PARK</title>
+
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .memo-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .memo-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .memo-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .memo-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .memo-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .memo-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .related-tools {
+      margin-top: 70px;
+      padding-top: 50px;
+      border-top: 1px solid #eadfd3;
+    }
+
+    .related-heading {
+      margin-bottom: 24px;
+    }
+
+    .related-heading h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .related-heading p {
+      margin: 0;
+      color: #81746a;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding: 22px;
+
+      color: #32271f;
+      background: #ffffff;
+      border: 1px solid #eadfd3;
+      border-radius: 20px;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: #c89c79;
+      box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+    }
+
+    .related-card > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+
+      background: #fff4e8;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .related-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #81746a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .memo-page-header {
+        padding: 0 4%;
+      }
+
+      .memo-logo {
+        font-size: 15px;
+      }
+
+      .memo-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .memo-page-main {
+        width: min(94%, 1100px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="memo-page-header">
+    <a href="../../" class="memo-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="memo-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="memo-page-main">
+    <section class="screen" data-screen="memo">
+      <div class="tool-head" style="--c: var(--yellow)">
+        <div class="tool-icon" data-icon="memo"></div>
+
+        <div class="tool-title">
+          메모 우체통
+          <small>Sticky Memo</small>
+        </div>
+      </div>
+
+      <div
+        class="card"
+        style="
+          margin-bottom: 18px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        "
+      >
+        <button
+          class="btn"
+          id="mmAdd"
+          type="button"
+        >
+          + 새 메모
+        </button>
+
+        <span class="hint">
+          작성한 메모는 이 브라우저에 자동 저장돼요.
+        </span>
+      </div>
+
+      <div
+        class="memo-board"
+        id="mmBoard"
+        aria-live="polite"
+      ></div>
+    </section>
+
+    <section class="related-tools">
+      <div class="related-heading">
+        <h2>빠른 기능</h2>
+        <p>다른 기능도 바로 사용해보세요.</p>
+      </div>
+
+      <div class="related-grid">
+        <a href="../timer/" class="related-card">
+          <span aria-hidden="true">⏱️</span>
+
+          <div>
+            <h3>스톱워치·타이머</h3>
+            <p>시간을 재거나 원하는 시간을 설정해요.</p>
+          </div>
+        </a>
+
+        <a href="../random/" class="related-card">
+          <span aria-hidden="true">🎲</span>
+
+          <div>
+            <h3>랜덤 숫자 추첨</h3>
+            <p>원하는 범위에서 숫자를 뽑아요.</p>
+          </div>
+        </a>
+
+        <a href="../coin/" class="related-card">
+          <span aria-hidden="true">🪙</span>
+
+          <div>
+            <h3>동전 던지기</h3>
+            <p>앞면과 뒷면 중 하나를 정해요.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <script src="../../js/tools/memo.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.memo === "function"
+      ) {
+        INIT.memo();
+      } else {
+        console.error(
+          "메모 기능 초기화 함수를 불러오지 못했습니다."
+        );
+      }
+    });
+  </script>
+</body>
+</html>

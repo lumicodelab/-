@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="최소값과 최대값을 설정해 원하는 개수만큼 숫자를 무작위로 뽑는 ALL-DAY PARK 랜덤 숫자 추첨기입니다."
+  >
+
+  <title>랜덤 숫자 추첨 | ALL-DAY PARK</title>
+
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .random-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .random-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .random-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .random-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .random-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .random-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .related-tools {
+      margin-top: 70px;
+      padding-top: 50px;
+      border-top: 1px solid #eadfd3;
+    }
+
+    .related-heading {
+      margin-bottom: 24px;
+    }
+
+    .related-heading h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .related-heading p {
+      margin: 0;
+      color: #81746a;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding: 22px;
+
+      color: #32271f;
+      background: #ffffff;
+      border: 1px solid #eadfd3;
+      border-radius: 20px;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: #c89c79;
+      box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+    }
+
+    .related-card > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+
+      background: #fff4e8;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .related-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #81746a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .random-page-header {
+        padding: 0 4%;
+      }
+
+      .random-logo {
+        font-size: 15px;
+      }
+
+      .random-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="random-page-header">
+    <a href="../../" class="random-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="random-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="random-page-main">
+    <section class="screen" data-screen="random">
+      <div class="tool-head" style="--c: var(--mint)">
+        <div class="tool-icon" data-icon="random"></div>
+
+        <div class="tool-title">
+          행운의 뽑기
+          <small>Random Number</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <div
+          class="toolbar"
+          style="justify-content: center;"
+        >
+          <div class="fg">
+            <span class="lbl">최소</span>
+
+            <input
+              class="field"
+              id="rnMin"
+              type="number"
+              value="1"
+            >
+          </div>
+
+          <div class="fg">
+            <span class="lbl">최대</span>
+
+            <input
+              class="field"
+              id="rnMax"
+              type="number"
+              value="45"
+            >
+          </div>
+
+          <div class="fg">
+            <span class="lbl">개수</span>
+
+            <input
+              class="field"
+              id="rnCount"
+              type="number"
+              value="1"
+              min="1"
+            >
+          </div>
+
+          <label
+            class="fg"
+            style="align-items: center;"
+          >
+            <span class="lbl">중복 없이</span>
+
+            <input
+              id="rnUnique"
+              type="checkbox"
+              checked
+              style="width: 20px; height: 20px;"
+            >
+          </label>
+
+          <button
+            class="btn"
+            id="rnDraw"
+            type="button"
+          >
+            뽑기!
+          </button>
+        </div>
+
+        <div style="height: 28px;"></div>
+
+        <div
+          class="rand-display"
+          id="rnBig"
+          aria-live="polite"
+        ></div>
+
+        <div
+          class="rand-chips"
+          id="rnChips"
+        ></div>
+      </div>
+    </section>
+
+    <section class="related-tools">
+      <div class="related-heading">
+        <h2>빠른 기능</h2>
+        <p>다른 기능도 바로 사용해보세요.</p>
+      </div>
+
+      <div class="related-grid">
+        <a href="../roulette/" class="related-card">
+          <span aria-hidden="true">🎡</span>
+
+          <div>
+            <h3>룰렛</h3>
+            <p>입력한 항목 중 하나를 선택해요.</p>
+          </div>
+        </a>
+
+        <a href="../ladder/" class="related-card">
+          <span aria-hidden="true">🪜</span>
+
+          <div>
+            <h3>사다리 타기</h3>
+            <p>여러 사람의 결과를 정해요.</p>
+          </div>
+        </a>
+
+        <a href="../coin/" class="related-card">
+          <span aria-hidden="true">🪙</span>
+
+          <div>
+            <h3>동전 던지기</h3>
+            <p>앞면과 뒷면 중 하나를 정해요.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <script src="../../js/tools/random.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.random === "function"
+      ) {
+        INIT.random();
+      } else {
+        console.error("랜덤 추첨 초기화 함수를 불러오지 못했습니다.");
+      }
+    });
+  </script>
+</body>
+</html>
