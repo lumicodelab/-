@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="항목을 입력하고 버튼을 눌러 무작위 결과를 뽑을 수 있는 ALL-DAY PARK 온라인 룰렛입니다."
+  >
+
+  <title>온라인 룰렛 | ALL-DAY PARK</title>
+
+  <!-- 기존 기능 디자인 -->
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .roulette-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .roulette-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .roulette-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .roulette-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .roulette-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    /*
+      기존 사이트에서는 화면 전환 기능이 section을 숨길 수 있으므로
+      룰렛 전용 페이지에서는 항상 보이게 설정합니다.
+    */
+    .roulette-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .roulette-page-header {
+        padding: 0 4%;
+      }
+
+      .roulette-logo {
+        font-size: 15px;
+      }
+
+      .roulette-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+    }
+
+.related-tools {
+  margin-top: 70px;
+  padding-top: 50px;
+  border-top: 1px solid #eadfd3;
+}
+
+.related-heading {
+  margin-bottom: 24px;
+}
+
+.related-heading h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+
+.related-heading p {
+  margin: 0;
+  color: #81746a;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.related-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 22px;
+
+  color: #32271f;
+  background: #ffffff;
+  border: 1px solid #eadfd3;
+  border-radius: 20px;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+  border-color: #c89c79;
+  box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+}
+
+.related-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+
+  background: #fff4e8;
+  border-radius: 16px;
+  font-size: 25px;
+}
+
+.related-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.related-card p {
+  margin: 0;
+  color: #81746a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <header class="roulette-page-header">
+    <a href="../../" class="roulette-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="roulette-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="roulette-page-main">
+    <!-- ============ ROULETTE ============ -->
+    <section class="screen" data-screen="roulette">
+      <div class="tool-head" style="--c: var(--red)">
+        <div class="tool-icon" data-icon="roulette"></div>
+
+        <div class="tool-title">
+          룰렛 대관람차
+          <small>Roulette Wheel</small>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="wheel-wrap">
+            <div class="pointer"></div>
+
+            <canvas
+              id="rlWheel"
+              aria-label="온라인 룰렛"
+            ></canvas>
+
+            <button
+              class="hub"
+              id="rlSpin"
+              type="button"
+            >
+              SPIN
+            </button>
+          </div>
+
+          <div
+            class="result-big"
+            id="rlResult"
+            style="text-align: center; margin-top: 16px;"
+            aria-live="polite"
+          ></div>
+        </div>
+
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+            "
+          >
+            <span class="lbl">
+              항목
+              <span id="rlCount">0</span>개
+            </span>
+
+            <button
+              class="btn sm"
+              id="rlAdd"
+              type="button"
+            >
+              ＋ 추가
+            </button>
+          </div>
+
+          <div
+            class="list-stack"
+            id="rlList"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+<section class="related-tools">
+  <div class="related-heading">
+    <h2>다른 빠른 기능</h2>
+    <p>필요한 기능을 바로 사용해보세요.</p>
+  </div>
+
+  <div class="related-grid">
+    <a href="../ladder/" class="related-card">
+      <span>🪜</span>
+      <div>
+        <h3>사다리 타기</h3>
+        <p>여러 사람의 결과를 정해요.</p>
+      </div>
+    </a>
+
+    <a href="../random/" class="related-card">
+      <span>🎲</span>
+      <div>
+        <h3>랜덤 추첨</h3>
+        <p>입력한 항목 중 하나를 뽑아요.</p>
+      </div>
+    </a>
+
+    <a href="../coin/" class="related-card">
+      <span>🪙</span>
+      <div>
+        <h3>동전 던지기</h3>
+        <p>앞면과 뒷면 중 하나를 정해요.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+  </main>
+
+  <!-- 공통 기능: 순서 유지 -->
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <!-- 룰렛 기능 -->
+  <script src="../../js/tools/roulette.js"></script>
+
+  <!-- 기존 router 대신 이 페이지에서 룰렛을 직접 실행 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.roulette === "function"
+      ) {
+        INIT.roulette();
+      } else {
+        console.error("룰렛 초기화 함수를 불러오지 못했습니다.");
+      }
+    });
+  </script>
+</body>
+</html>

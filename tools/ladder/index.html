@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="참가자와 결과를 입력해 간편하게 이용할 수 있는 ALL-DAY PARK 온라인 사다리 타기입니다."
+  >
+
+  <title>온라인 사다리 타기 | ALL-DAY PARK</title>
+
+  <!-- 기존 기능 디자인 -->
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .ladder-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+      padding: 0 5%;
+
+      background: #fffaf3;
+      border-bottom: 1px solid #eadfd3;
+    }
+
+    .ladder-page-header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .ladder-logo {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .ladder-navigation {
+      display: flex;
+      gap: 20px;
+
+      color: #75675d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .ladder-page-main {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    /*
+      기존 사이트에서는 화면 전환 기능 때문에 숨겨질 수 있으므로
+      사다리 전용 페이지에서는 항상 표시합니다.
+    */
+    .ladder-page-main .screen {
+      display: block !important;
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    .related-tools {
+      margin-top: 70px;
+      padding-top: 50px;
+      border-top: 1px solid #eadfd3;
+    }
+
+    .related-heading {
+      margin-bottom: 24px;
+    }
+
+    .related-heading h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    .related-heading p {
+      margin: 0;
+      color: #81746a;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding: 22px;
+
+      color: #32271f;
+      background: #ffffff;
+      border: 1px solid #eadfd3;
+      border-radius: 20px;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: #c89c79;
+      box-shadow: 0 14px 30px rgba(72, 49, 33, 0.09);
+    }
+
+    .related-card > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+
+      background: #fff4e8;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .related-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #81746a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .ladder-page-header {
+        padding: 0 4%;
+      }
+
+      .ladder-logo {
+        font-size: 15px;
+      }
+
+      .ladder-navigation {
+        gap: 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="ladder-page-header">
+    <a href="../../" class="ladder-logo">
+      ALL-DAY PARK
+    </a>
+
+    <nav class="ladder-navigation" aria-label="주요 메뉴">
+      <a href="../">빠른 기능</a>
+      <a href="../../park/">테마파크</a>
+    </nav>
+  </header>
+
+  <main class="ladder-page-main">
+    <!-- ============ LADDER ============ -->
+    <section class="screen" data-screen="ladder">
+      <div class="tool-head" style="--c: var(--green)">
+        <div class="tool-icon" data-icon="ladder"></div>
+
+        <div class="tool-title">
+          사다리 급류
+          <small>Ghost Leg</small>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+            "
+          >
+            <span class="lbl">참가자 · 결과</span>
+
+            <div style="display: flex; gap: 8px;">
+              <button
+                class="btn ghost sm"
+                id="ldMinus"
+                type="button"
+                aria-label="참가자 수 줄이기"
+              >
+                −
+              </button>
+
+              <button
+                class="btn ghost sm"
+                id="ldPlus"
+                type="button"
+                aria-label="참가자 수 늘리기"
+              >
+                ＋
+              </button>
+            </div>
+          </div>
+
+          <div class="name-row" id="ldNames"></div>
+
+          <div style="height: 12px;"></div>
+
+          <div class="name-row" id="ldResults"></div>
+
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              margin-top: 16px;
+              flex-wrap: wrap;
+            "
+          >
+            <button
+              class="btn"
+              id="ldShuffle"
+              type="button"
+            >
+              사다리 새로 놓기
+            </button>
+
+            <button
+              class="btn ghost"
+              id="ldRunAll"
+              type="button"
+            >
+              전체 결과 보기
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ladder-stage">
+            <canvas
+              id="ldCanvas"
+              aria-label="온라인 사다리 타기"
+            ></canvas>
+          </div>
+
+          <div
+            class="result-big"
+            id="ldResult"
+            style="
+              text-align: center;
+              margin-top: 14px;
+              font-size: 22px;
+            "
+            aria-live="polite"
+          ></div>
+
+          <p
+            class="hint"
+            style="
+              text-align: center;
+              margin-top: 4px;
+            "
+          >
+            위쪽 이름을 누르면 결과까지 따라가요.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-tools">
+      <div class="related-heading">
+        <h2>빠른 기능</h2>
+        <p>다른 기능도 바로 사용해보세요.</p>
+      </div>
+
+      <div class="related-grid">
+        <a href="../roulette/" class="related-card">
+          <span aria-hidden="true">🎡</span>
+
+          <div>
+            <h3>룰렛</h3>
+            <p>입력한 항목 중 하나를 선택해요.</p>
+          </div>
+        </a>
+
+        <a href="../random/" class="related-card">
+          <span aria-hidden="true">🎲</span>
+
+          <div>
+            <h3>랜덤 추첨</h3>
+            <p>목록에서 무작위로 하나를 뽑아요.</p>
+          </div>
+        </a>
+
+        <a href="../coin/" class="related-card">
+          <span aria-hidden="true">🪙</span>
+
+          <div>
+            <h3>동전 던지기</h3>
+            <p>앞면과 뒷면 중 하나를 정해요.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 공통 기능: 순서 유지 -->
+  <script src="../../js/core/storage.js"></script>
+  <script src="../../js/core/init.js"></script>
+  <script src="../../js/core/audio.js"></script>
+
+  <!-- 사다리 기능 -->
+  <script src="../../js/tools/ladder.js"></script>
+
+  <!-- 사다리 직접 실행 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (
+        typeof INIT !== "undefined" &&
+        typeof INIT.ladder === "function"
+      ) {
+        INIT.ladder();
+      } else {
+        console.error("사다리 초기화 함수를 불러오지 못했습니다.");
+      }
+    });
+  </script>
+</body>
+</html>
